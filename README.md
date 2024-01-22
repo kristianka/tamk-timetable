@@ -1,2 +1,3 @@
 # tamk-timetable
-course project
+
+course project :)
