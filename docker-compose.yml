@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: timetables_password
+      MONGO_INITDB_DATABASE: timetables_db
+    volumes:
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - 27017:27017
+    restart: "unless-stopped"
+  # Database Manager
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8099:8081
+    depends_on:
+      - mongodb
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: timetables_password
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: helpdev
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
