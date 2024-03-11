@@ -5,4 +5,5 @@ Before commit
 Quick start
 
 `npm i` in both folders
+
 `npm run dev` in both folders
