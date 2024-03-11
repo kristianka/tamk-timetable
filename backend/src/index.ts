@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import timetableRouter from "./controllers/timetable";
-import userRouter from "./controllers/user";
+import userRouter from "../src/routes/userAuth";
 
 const app = express();
 app.use(cors());
