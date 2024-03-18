@@ -26,5 +26,6 @@ export interface ClassResponse {
 
 export interface CourseResponse {
   status: string;
+  message: string;
   reservations: Reservation[];
 }

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 // validates course/class code that needs to be string.
 // sets req.query.code to the code if it's valid.
-export const validateCode = (
+export const validateQueryCode = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,6 +16,23 @@ export const validateCode = (
   }
 
   req.query.code = code;
+  next();
+};
+
+export const validateBodyCode = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { code } = req.body;
+
+  if (!code || typeof code !== "string") {
+    return res
+      .status(400)
+      .send("Course code is required and must be a string.");
+  }
+
+  req.body.code = code;
   next();
 };
 
