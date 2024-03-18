@@ -10,9 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(session({ secret: "your-secret-key", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(session({
+  secret: "Secret",
+  resave: false,
+  saveUninitialized: false
+}))
 
 const PORT = 3000;
 
