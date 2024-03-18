@@ -1,16 +1,21 @@
 // mongodb schema for user
-import mongoose, { Schema, Document } from "mongoose";
+const mongoose = require("mongoose");
 
-export interface IUser extends Document {
-    id: string;
-    username: string;
-    password: string;
-}
-
-const userSchema: Schema = new Schema({
-    _id: { type: mongoose.Types.ObjectId, auto:true },
-    username: { type: String, required: true },
-    password: { type: String, required: true }
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    passwordHash: String,
 });
 
-export default mongoose.model<IUser>("User", userSchema);
+userSchema.set("toJSON", {
+    transform: (document: any, returnedObject: any) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+        delete returnedObject.passwordHash;
+    }
+});
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

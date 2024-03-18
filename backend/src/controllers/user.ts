@@ -1,25 +1,52 @@
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import bcrypt from "bcrypt";
-import User from "../models/user";
+const loginRouter = require("express").Router();
+const usersRouter = require("express").Router();
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
-export const loginUser = async (req: Request,res: Response) => {
-  try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+usersRouter.post("/", async (request: Request, response: Response) => {
+  const { username, name, password } = request.body;
 
-    if (!user) {
-      return res.status(400).json({ message: "Incorrect username." });
-    }
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+  const user = new User({
+    username,
+    name,
+    passwordHash,
+  });
 
-    if (!isValidPassword) {
-      return res.status(400).json({ message: "Incorrect password." });
-    }
+  const savedUser = await user.save();
 
-    return res.json( "Login succesful" );
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json( "Internal server error" );
+  response.json(savedUser);
+});
+
+loginRouter.post('/', async (request, response) => {
+  const { username, password } = request.body;
+
+  const user = await User.findOne({ username });
+  const passwordCorrect = user === null
+    ? false
+    : await bcrypt.compare(password, user.passwordHash);
+
+  if (!(user && passwordCorrect)) {
+    return response.status(401).json({
+      error: "invalid username or password"
+    })
   }
-};
+
+  const userForToken = {
+    username: user.username,
+    id: user._id,
+  }
+
+  const token = jwt.sign(userForToken, process.env.SECRET);
+
+  response
+    .status(200)
+    .send({ token, username: user.username, name: user.name });
+});
+
+module.exports = loginRouter;
+module.exports = usersRouter;
