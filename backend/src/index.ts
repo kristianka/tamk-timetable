@@ -23,8 +23,8 @@ app.use("/api/timetables", timetableRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", usersRouter);
 
-app.use(middleware.unknownEndpoint)
-app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} 😁`);
