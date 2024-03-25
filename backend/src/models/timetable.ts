@@ -1,1 +1,0 @@
-// mongodb schema for timetable

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import "dotenv/config";
 import timetableRouter from "./controllers/timetable";
 import mongoose from "mongoose";
 const { loginRouter, usersRouter } = require("./controllers/user");
