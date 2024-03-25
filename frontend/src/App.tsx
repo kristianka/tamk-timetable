@@ -1,22 +1,10 @@
-import { useEffect, useState } from "react";
-import getData from "./services/timetable";
+import "./App.css";
+import Timetable from "./components/Timetable";
 
 function App() {
-  const [data, setData] = useState<unknown>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getData();
-      setData(res);
-    };
-    fetchData();
-  }, []);
-
-  console.log(data);
-
   return (
     <div className="m-auto">
-      <h1>Hello world</h1>
+      <Timetable />
     </div>
   );
 }
