@@ -1,17 +1,10 @@
-import { MongoClient } from 'mongodb'
+const mongoose = require("mongoose");
 
-//require('dotenv').config();
-
-
-const mongoUri = 'mongodb://admin:password@localhost:27017/timetables_db';
-const mongoClient = new MongoClient(mongoUri, {
-  poolSize: {
-      minPoolSize: 1,
-      maxPoolSize: 10,
-  },
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const pool = mongoose.createConnection("mongodb://localhost:27017/timetables_db", {
+  authSource: "admin",
+  user: "admin",
+  pass: "password",
+  maxPoolSize: 10
 });
 
-
-module.exports = mongoClient;
+module.exports = pool;
