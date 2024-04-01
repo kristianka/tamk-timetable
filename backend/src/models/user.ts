@@ -34,7 +34,7 @@ const Users = {
         return;
       }
 
-      console.log(`User for userId ${username}:`, user);
+      //console.log(`User for userId ${username}:`, user);
       return user;
 
     } catch (error) {

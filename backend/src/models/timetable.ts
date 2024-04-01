@@ -22,7 +22,7 @@ const TimeTable = {
       }
 
       // Log timetable
-      console.log(`Timetable for userId ${userId}:`, userTimetable);
+      //console.log(`Timetable for userId ${userId}:`, userTimetable);
       return userTimetable;
 
     } catch (error) {
