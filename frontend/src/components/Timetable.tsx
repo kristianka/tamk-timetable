@@ -1,37 +1,28 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Formik, Field, Form } from "formik";
-import {
-  getTimetableByClass,
-  getTimetableByCourse
-} from "../services/timetableService";
+import { getTimetableByCourse } from "../services/timetableService";
 import { Reservation } from "../types";
+import MyCalendar from "./Calendar";
 
 const Timetable = () => {
-  const [timetable, setTimetable] = useState<Reservation[] | null>(null);
-  const [courseCode, setCourseCode] = useState<string>("");
-  const [timetable2, setTimetable2] = useState<Reservation[] | null>(null);
-  const [classCode, setClassCode] = useState<string>("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getTimetableByCourse(courseCode);
-      setTimetable(res?.reservations || null);
-      const res2 = await getTimetableByClass(courseCode);
-      setTimetable2(res2?.reservations || null);
-    };
-    // fetchData();
-  }, []);
+  const [courseTimetable, setCourseTimetable] = useState<Reservation[] | null>(
+    null
+  );
+  const [groupTimetable, setGroupTimeTable] = useState<Reservation[] | null>(
+    null
+  );
 
   return (
     <div>
       <p className="m-5 text-xl">Timetable</p>
       <div className="m-5">
-        <h2>Haku kurssilla, esim. 5G00EV17-3003</h2>
+        <h2>Search by course code, example 5G00EV17-3003</h2>
         <Formik
-          initialValues={{ courseCode }}
+          key="courseCode"
+          initialValues={{ courseCode: "" || "" }}
           onSubmit={async (values) => {
             const res = await getTimetableByCourse(values.courseCode);
-            setTimetable(res?.reservations || null);
+            setCourseTimetable(res?.reservations || null);
           }}
         >
           <Form>
@@ -56,8 +47,8 @@ const Timetable = () => {
             </tr>
           </thead>
           <tbody>
-            {timetable &&
-              timetable.map((item: Reservation) => (
+            {courseTimetable &&
+              courseTimetable.map((item: Reservation) => (
                 <tr className="bg-white border-b" key={item.id}>
                   <td>{item.subject}</td>
                   <td>{item.startDate}</td>
@@ -69,19 +60,20 @@ const Timetable = () => {
       </div>
 
       <div className="mt-10 m-5">
-        <h2>Haku ryhmäkoodilla, esim. 21i224</h2>
+        <h2>Search by group code, example 21i224</h2>
 
         <Formik
-          initialValues={{ classCode }}
+          key="groupCode"
+          initialValues={{ groupCode: "" || "" }}
           onSubmit={async (values) => {
-            const res = await getTimetableByCourse(values.classCode);
-            setTimetable2(res?.reservations || null);
+            const res = await getTimetableByCourse(values.groupCode);
+            setGroupTimeTable(res?.reservations || null);
           }}
         >
           <Form>
             <Field
-              id="classCode"
-              name="classCode"
+              id="groupCode"
+              name="groupCode"
               placeholder="21i224"
               type="text"
             />
@@ -89,7 +81,7 @@ const Timetable = () => {
           </Form>
         </Formik>
       </div>
-      <div className="m-5 divide-y">
+      {/* <div className="m-5 divide-y">
         <table className="w-full text-sm text-left">
           <thead className="text-xs">
             <tr>
@@ -109,7 +101,12 @@ const Timetable = () => {
               ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
+      {groupTimetable ? (
+        <MyCalendar data={groupTimetable} />
+      ) : (
+        <p className="m-5">Enter group code to render timetable</p>
+      )}
     </div>
   );
 };
