@@ -1,16 +1,16 @@
 const db = db.getSiblingDB('timetables_db');
 
-db.createCollection('user');
+db.createCollection('users');
 
-db.user.insertOne({
+db.users.insertOne({
   id: 1,
   username: 'test name',
   password: 'testpassword'
 });
 
-db.createCollection('timetable');
+db.createCollection('timetables');
 
-db.timetable.insertOne({
+db.timetables.insertOne({
   id: 1,
   userId: 1,
   codes: [1, 2]

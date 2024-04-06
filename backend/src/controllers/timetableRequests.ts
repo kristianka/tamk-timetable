@@ -1,4 +1,4 @@
-/*import axios from "axios";
+import axios from "axios";
 import { CourseResponse, ClassResponse } from "../../types";
 
 export const getByCourse = async (code: string) => {
@@ -29,4 +29,4 @@ export const getByClass = async (code: string) => {
       }
     }
   );
-};*/
+};

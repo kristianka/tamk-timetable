@@ -1,26 +1,23 @@
 import { Request, Response, response } from "express";
 import bcrypt from "bcrypt";
+import { Users } from '../models/user';
 const usersRouter = require("express").Router();
-const User = require("../models/user");
+
 
 usersRouter.post("/", async (request: Request, response: Response) => {
-  const { username, name, password } = request.body;
+  const { username, password } = request.body;
 
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
-  const user = new User({
-    username,
-    passwordHash,
-  });
+  await Users.create(username, passwordHash);
 
-  const savedUser = await user.save();
-  response.json(savedUser);
+  response.json({ message: "User created successfully" });
 });
 
-/*usersRouter.get("/", async (_request: Request, response: Response) => {
-  const users = await User.find({});
+usersRouter.get("/", async (_request: Request, response: Response) => {
+  const users = await Users.find({});
   response.json(users);
-});*/
+});
 
 export default usersRouter;
