@@ -3,7 +3,8 @@ import cors from "cors";
 import "dotenv/config";
 import timetableRouter from "./controllers/timetable";
 import mongoose from "mongoose";
-const { loginRouter, usersRouter } = require("./controllers/user");
+import usersRouter from "./controllers/user";
+import loginRouter from "./controllers/login";
 const middleware = require('./middleware')
 const logger = require('./logger')
 mongoose.set("strictQuery", false);
@@ -22,7 +23,7 @@ app.get("/ping", (_req, res) => {
 
 app.use("/api/timetables", timetableRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/login", usersRouter);
+app.use("/api/login", loginRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
