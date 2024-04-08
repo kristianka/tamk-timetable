@@ -2,13 +2,11 @@ import mongoose, { Document } from "mongoose";
 import pool from "../db/pool";
 
 interface UserDocument extends Document {
-  id: number;
   username: string;
   password: string;
 }
 
 const userSchema = new mongoose.Schema({
-  id: Number,
   username: String,
   password: String,
 });

@@ -3,7 +3,6 @@ import pool from '../db/pool';
 import mongoose from 'mongoose';
 
 const timetableSchema = new mongoose.Schema({
-  id: Number,
   userId: Number,
   codes: [Number],
 })
@@ -62,7 +61,3 @@ const TimeTable = {
 
 
 export default TimeTable;
-
-//TimeTable.getCoursesByUser(1);
-//TimeTable.updateTimetableByUser(3, [4,5,6]);
-//TimeTable.getCoursesByUser(3);
