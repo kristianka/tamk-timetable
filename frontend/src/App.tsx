@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react";
-import getData from "./services/timetable";
+import { useEffect } from "react";
+import "./App.css";
+import Timetable from "./components/Timetable";
 
-function App() {
-  const [data, setData] = useState<unknown>(null);
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { pingServer } from "./services/info";
 
+const App = () => {
+  // check server status
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await getData();
-      setData(res);
-    };
-    fetchData();
+    pingServer();
   }, []);
 
-  console.log(data);
-
   return (
-    <div className="m-auto">
-      <h1>Hello world</h1>
+    <div>
+      <ToastContainer />
+      <Timetable />
     </div>
   );
-}
+};
 
 export default App;
