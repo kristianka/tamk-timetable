@@ -2,15 +2,15 @@ import mongoose, { Document } from "mongoose";
 import pool from "../db/pool";
 
 interface UserDocument extends Document {
-  id: number;
+  id: string;
   username: string;
   password: string;
 }
 
 const userSchema = new mongoose.Schema({
-  id: Number,
+  id: String,
   username: String,
-  password: String,
+  password: String
 });
 
 // Define the user-related functionalities
@@ -19,7 +19,7 @@ const Users = {
     const User = pool.model<UserDocument>("users", userSchema);
     const newUser = new User({
       username,
-      password,
+      password
     });
     await newUser.save();
     console.log("Created new user for username ${username}");
@@ -45,7 +45,7 @@ const Users = {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  },
+  }
 };
 
 // Define the Mongoose model for the User collection

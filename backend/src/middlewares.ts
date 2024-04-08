@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { AuthRequest } from "../types";
 
 // validates course/class code that needs to be string.
 // sets req.query.code to the code if it's valid.
@@ -41,4 +43,47 @@ export const validateBodyCode = (
 export const errorHandler = (err: Error, req: Request, res: Response) => {
   console.error(err);
   return res.status(500).send("Internal server error. Please try again later.");
+};
+
+export const getTokenFromReq = (
+  req: AuthRequest,
+  _res: Response,
+  next: NextFunction
+) => {
+  const authorization = req.get("Authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    req.token = authorization.replace("Bearer ", "");
+  } else {
+    req.token = undefined;
+  }
+  next();
+};
+
+export const getUserFromReq = (
+  req: AuthRequest,
+  _res: Response,
+  next: NextFunction
+) => {
+  console.log(req.token);
+  if (!req.token) {
+    req.user = undefined;
+    return next();
+  }
+
+  const decodedToken = jwt.verify(
+    req.token,
+    process.env.SECRET as string
+  ) as JwtPayload;
+
+  if (decodedToken.id) {
+    req.user = decodedToken;
+  } else {
+    req.user = undefined;
+  }
+  next();
+};
+
+export default {
+  getTokenFromReq,
+  getUserFromReq
 };
