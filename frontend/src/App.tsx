@@ -1,30 +1,30 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import getData from "./services/timetable";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { pingServer } from "./services/info";
 import LoginForm from "./services/loginForm";
 import RegisterForm from "./services/registerForm";
+import Timetable from "./components/Timetable";
 
-function App() {
-  const [data, setData] = useState<unknown>(null);
-
+const App = () => {
+  // check server status
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await getData();
-      setData(res);
-    };
-    fetchData();
+    pingServer();
   }, []);
-
-  console.log(data);
 
   return (
     <Router>
+      <div>
+        <ToastContainer />
+        <Timetable />
+      </div>
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
