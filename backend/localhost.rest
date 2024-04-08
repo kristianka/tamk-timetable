@@ -1,0 +1,10 @@
+GET {{server}}/ping
+
+###
+GET {{server}}/api/users
+
+
+
+@server = http://localhost:3000
+
+
