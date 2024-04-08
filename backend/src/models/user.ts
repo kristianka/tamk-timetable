@@ -1,5 +1,5 @@
-import mongoose, { Document } from 'mongoose';
-import pool from '../db/pool';
+import mongoose, { Document } from "mongoose";
+import pool from "../db/pool";
 
 interface UserDocument extends Document {
   id: number;
@@ -22,14 +22,14 @@ const Users = {
       password,
     });
     await newUser.save();
-    console.log(`Created new user for username ${username}`);
+    console.log("Created new user for username ${username}");
   },
   findByUsername: async (username: string) => {
     const User = pool.model<UserDocument>("users", userSchema);
     try {
       const user = await User.findOne({ username });
       if (!user) {
-        console.log(`No user found for username ${username}`);
+        console.log("No user found for username ${username}");
         return;
       }
       return user;
