@@ -1,6 +1,6 @@
 import request from "supertest";
 import bcrypt from "bcrypt";
-import {describe, expect, test, afterAll} from '@jest/globals';
+import {describe, expect} from '@jest/globals';
 
 import app from "../index";
 import { Users } from "../models/user";
@@ -16,7 +16,7 @@ describe("Auth Routes", () => {
       Users.create = mockCreate;
       const mockHash = jest.fn().mockResolvedValue("hashedPassword");
       bcrypt.hash = mockHash;
-    })
+    });
     it("should sign up a new user", async () => {
       const response = await request(app)
         .post("/api/users/")
