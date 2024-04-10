@@ -51,7 +51,6 @@ const TimeTable = {
           });
           newTimetable.save();
           console.log(`Created new timetable for user ${userId}`);
-
         }
     } catch (error) {
       console.error('Error updating timetable item:', error);

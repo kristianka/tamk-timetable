@@ -4,6 +4,28 @@ GET {{server}}/ping
 GET {{server}}/api/users
 
 
+###
+POST {{server}}/api/users
+Content-Type: application/json
+
+{
+  "username": "Henri2",
+  "password": "henri"
+}
+
+
+###
+# @name login
+POST {{server}}/api/login
+Content-Type: application/json
+
+{
+  "username": "Henri",
+  "password": "henri"
+}
+
+###
+@authToken = {{login.response.body.token}}
 
 @server = http://localhost:3000
 
