@@ -58,7 +58,3 @@ const TimeTable = {
 };
 
 export default TimeTable;
-
-//TimeTable.getCoursesByUser(1);
-//TimeTable.updateTimetableByUser(3, [4,5,6]);
-//TimeTable.getCoursesByUser(3);

@@ -2,6 +2,36 @@ import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { AuthRequest } from "../types";
 
+const unknownEndpoint = (request: Request, response: Response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+const errorHandler = (
+  error: Error,
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
+  } else if (
+    error.name === "MongoServerError" &&
+    error.message.includes("E11000 duplicate key error")
+  ) {
+    return response
+      .status(400)
+      .json({ error: "expected `username` to be unique" });
+  } else if (error.name === "JsonWebTokenError") {
+    return response.status(400).json({ error: "token missing or invalid" });
+  }
+
+  next(error);
+};
+
+export { unknownEndpoint, errorHandler };
+
 // validates course/class code that needs to be string.
 // sets req.query.code to the code if it's valid.
 export const validateQueryCode = (
@@ -36,13 +66,6 @@ export const validateBodyCode = (
 
   req.body.code = code;
   next();
-};
-
-// error handler
-// to do: implement better error handling
-export const errorHandler = (err: Error, req: Request, res: Response) => {
-  console.error(err);
-  return res.status(500).send("Internal server error. Please try again later.");
 };
 
 export const getTokenFromReq = (
