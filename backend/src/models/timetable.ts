@@ -38,7 +38,7 @@ const TimeTable = {
 
       if (existingItem) {
         // Update the existing item with the new codes
-        //console.log(`Timetable for userId ${userId}:`, existingItem);
+        console.log(`Timetable for userId ${userId}:`, existingItem);
         existingItem.set({ codes });
         existingItem.save();
         console.log(`Updated timetable for user ${userId}`);
