@@ -9,7 +9,7 @@ const timetableSchema = new mongoose.Schema({
 });
 
 const TimeTable = {
-  getCoursesByUser: async (userId: number) => {
+  getCoursesByUser: async (userId: string) => {
     const Timetable = pool.model("timetables", timetableSchema);
 
     try {
@@ -30,7 +30,7 @@ const TimeTable = {
     }
   },
 
-  updateTimetableByUser: async (userId: number, codes: number[]) => {
+  updateTimetableByUser: async (userId: string, codes: string[]) => {
     const Timetable = pool.model("timetables", timetableSchema);
 
     try {

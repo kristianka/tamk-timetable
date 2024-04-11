@@ -21,6 +21,7 @@ usersRouter.post("/", async (request: Request, response: Response) => {
   }
 });
 
+// TODO: remove before prod lol
 usersRouter.get("/", async (_request: Request, response: Response) => {
   try {
     const users = await Users.find({});

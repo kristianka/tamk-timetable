@@ -93,7 +93,8 @@ timetableRouter.post(
         }
       }
 
-      // todo: authenticate and authorize user before
+      await TimeTable.updateTimetableByUser(req.user.id, courseCodes);
+      return res.send("Timetable added successfully.");
     } catch (error) {
       return next(error);
     }
@@ -101,28 +102,33 @@ timetableRouter.post(
 );
 
 // updates a user's timetable in the database by course code
-timetableRouter.put("/", validateBodyCode, async (req, res, next) => {
-  try {
-    const { courseCodes } = req.body;
-    // todo: authenticate and authorize user before
+timetableRouter.put(
+  "/",
+  validateBodyCode,
+  async (req: AuthRequest, res, next) => {
+    try {
+      const { courseCodes } = req.body;
 
-    // user sends their timetable id and new course codes.
-    // need to check that user has access to the timetable id
-    // and that the course codes are valid.
-
-    // to do: check that coursecodes is an array and every value is a string
-    // check coursecodes are valid
-    for (let i = 0; i < courseCodes.length; i++) {
-      const apiRes = await getByCourse(courseCodes[i]);
-      if (apiRes.data.message === "No results") {
-        return res.status(400).send("Course code is invalid.");
+      if (!req.user || req.user.id === undefined) {
+        return res.status(401).send("Unauthorized");
       }
-    }
 
-    // update document in db
-  } catch (error) {
-    return next(error);
+      // to do: check that coursecodes is an array and every value is a string
+      // check coursecodes are valid
+      for (let i = 0; i < courseCodes.length; i++) {
+        const apiRes = await getByCourse(courseCodes[i]);
+        if (apiRes.data.message === "No results") {
+          return res.status(400).send("Course code is invalid.");
+        }
+      }
+
+      // update document in db
+      await TimeTable.updateTimetableByUser(req.user.id, courseCodes);
+      return res.send("Timetable updated successfully.");
+    } catch (error) {
+      return next(error);
+    }
   }
-});
+);
 
 export default timetableRouter;
