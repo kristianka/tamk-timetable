@@ -21,7 +21,7 @@ jobs:
           node-version: "18"
 
       - name: Install MongoDB server
-        uses: MongoCamp/mongodb-github-action@1.0.0
+        uses: supercharge/mongodb-github-action@1.10.0
         with:
           mongodb-port: 27017
           mongodb-username: admin
