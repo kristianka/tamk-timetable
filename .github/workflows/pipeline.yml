@@ -27,6 +27,9 @@ jobs:
           mongodb-username: admin
           mongodb-password: password
 
+      - name: Install mongosh
+        run: sudo apt-get install -y mongodb-mongosh
+
       - name: Seed the database
         working-directory: ./db
         run: mongosh --username admin --password password --port 27017 < mongo-init.js
