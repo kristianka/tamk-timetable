@@ -1,33 +1,41 @@
-import { Request, Response, response } from "express";
+import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { Users } from "../models/user";
-const jwt = require("jsonwebtoken")
-const loginRouter = require("express").Router()
+import express from "express";
+import jwt from "jsonwebtoken";
+const loginRouter = express.Router();
 
 loginRouter.post("/", async (request: Request, response: Response) => {
-  const { username, password } = request.body
+  try {
+    const { username, password } = request.body;
 
-  const user = await Users.findByUsername(username)
-  const passwordCorrect = user === null || user === undefined
-    ? false
-    : await bcrypt.compare(password, user?.password || "")
+    const user = await Users.findByUsername(username);
+    const passwordCorrect =
+      user === null || user === undefined
+        ? false
+        : await bcrypt.compare(password, user?.password || "");
 
-  if (!(user && passwordCorrect)) {
-    return response.status(401).json({
-      error: "invalid username or password"
-    })
+    if (!(user && passwordCorrect)) {
+      return response.status(401).json({
+        error: "invalid username or password"
+      });
+    }
+
+    const userForToken = {
+      username: user.username,
+      id: user._id
+    };
+
+    const token = jwt.sign(userForToken, process.env.SECRET as string, {
+      expiresIn: "1h"
+    });
+
+    response.status(200).send({ token, username: user.username });
+  } catch (error) {
+    response
+      .status(400)
+      .json({ error: "Missing username and/or password from body" });
   }
-
-  const userForToken = {
-    username: user.username,
-    id: user._id
-  };
-
-  const token = jwt.sign(userForToken, process.env.SECRET);
-
-  response
-    .status(200)
-    .send({ token, username: user.username });
-})
+});
 
 export default loginRouter;
