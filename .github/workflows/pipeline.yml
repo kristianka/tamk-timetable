@@ -29,7 +29,7 @@ jobs:
 
       - name: Seed the database
         working-directory: ./db
-        run: mongo --username admin --password password --port 27017 < mongo-init.js
+        run: mongosh --username admin --password password --port 27017 < mongo-init.js
 
       - name: Create testing .env file from secret
         run: echo "${{secrets.ENV_FILE_TEST}}" > ./backend/.env
