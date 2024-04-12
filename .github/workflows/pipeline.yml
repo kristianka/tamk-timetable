@@ -28,7 +28,7 @@ jobs:
           auto-start: true
 
       - name: Install MongoDB using Docker
-        uses: mongocamp/mongodb-github-action@v1.0.0
+        uses: MongoCamp/mongodb-github-action@1.0.0
         with:
           mongodb-port: 27017
           mongodb-username: admin
