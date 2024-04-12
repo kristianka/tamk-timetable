@@ -25,7 +25,7 @@ jobs:
         with:
           mongodb-port: 27017
           mongodb-username: admin
-          mongodb-pwd: password
+          mongodb-password: password
 
       - name: Seed the database
         working-directory: ./db
