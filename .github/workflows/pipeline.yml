@@ -1,0 +1,58 @@
+name: Branch Test
+
+on:
+  push:
+    branches: ['**']
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v4.1.1
+
+      - name: Install Node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: "18"
+
+      - name: Install MySQL server
+        uses: shogo82148/actions-setup-mysql@v1.31.0
+        with:
+          mysql-version: "8.0"
+          auto-start: true
+
+      - name: Install MongoDB using Docker
+        uses: mongocamp/mongodb-github-action@v1.0.0
+        with:
+          mongodb-port: 27017
+          mongodb-username: admin
+          mongodb-pwd: password
+
+      - name: Seed the database
+        working-directory: ./db
+        run: mongo --username admin --password password --port 27017 < mongo-init.js
+
+      - name: Create testing .env file from secret
+        run: echo "${{secrets.ENV_FILE_TEST}}" > ./backend/.env
+
+      - name: Install the backend deps
+        working-directory: ./backend
+        run: npm install
+
+      - name: Run the backend tests
+        working-directory: ./backend
+        run: npm run test
+
+      #- name: Install the frontend deps
+      #  working-directory: ./frontend
+      #  run: npm install
+
+      #- name: Run the frontend tests
+      #  working-directory: ./frontend
+      #  run: npm run test:ci
