@@ -9,7 +9,6 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     timeout-minutes: 5
 
     steps:
@@ -21,13 +20,7 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install MySQL server
-        uses: shogo82148/actions-setup-mysql@v1.31.0
-        with:
-          mysql-version: "8.0"
-          auto-start: true
-
-      - name: Install MongoDB using Docker
+      - name: Install MongoDB server
         uses: MongoCamp/mongodb-github-action@1.0.0
         with:
           mongodb-port: 27017
