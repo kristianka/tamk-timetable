@@ -8,6 +8,7 @@ import { pingServer } from "./services/info";
 import LoginForm from "./services/loginForm";
 import RegisterForm from "./services/registerForm";
 import Timetable from "./components/Timetable";
+import LogoutButton from "./services/logout";
 
 const App = () => {
   // check server status
@@ -20,6 +21,7 @@ const App = () => {
       <div>
         <ToastContainer />
         <Timetable />
+        <LogoutButton/>
       </div>
       <Routes>
         <Route path="/login" element={<LoginForm />} />

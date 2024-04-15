@@ -2,28 +2,35 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm: React.FC = () => { //login form component
+//login form component
+const LoginForm: React.FC = () => { 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent) => { //async function to handle form submission
+  //async function to handle form submission
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/login", { //post request to login endpoint
+      //post request to login endpoint
+      const response = await axios.post("http://localhost:3000/api/login", {
         username,
         password,
       });
 
-      localStorage.setItem("token", response.data.token); //store token into local storage
-      navigate("/"); //home page navigation
+      //store token into local storage
+      localStorage.setItem("token", response.data.token);
+      
+      //home page navigation
+      navigate("/"); 
     } catch (error) {
       console.error("Error logging in", error);
     }
   };
 
-  return ( //login form
+  //login form
+  return (
     <form onSubmit={handleSubmit}> 
       <input
         type="text"
