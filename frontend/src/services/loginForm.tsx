@@ -16,7 +16,7 @@ const LoginForm: React.FC = () => { //login form component
         password,
       });
 
-      localStorage.setItem("token", response.data.token); //store token in local storage
+      localStorage.setItem("token", response.data.token); //store token into local storage
       navigate("/"); //home page navigation
     } catch (error) {
       console.error("Error logging in", error);
