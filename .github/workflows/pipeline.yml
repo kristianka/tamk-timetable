@@ -1,0 +1,60 @@
+name: Branch Test
+
+on:
+  push:
+    branches: ['**']
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v4.1.1
+
+      - name: Install Node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: "18"
+
+      - name: Install MongoDB server
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-port: 27017
+          mongodb-username: admin
+          mongodb-password: password
+
+      - name: Install mongosh
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg
+          wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-mongosh
+
+      - name: Seed the database
+        working-directory: ./db
+        run: mongosh --username admin --password password --port 27017 < mongo-init.js
+
+      - name: Create testing .env file from secret
+        run: echo "${{secrets.ENV_TEST}}" > ./backend/.env
+
+      - name: Install the backend deps
+        working-directory: ./backend
+        run: npm install
+
+      - name: Run the backend tests
+        working-directory: ./backend
+        run: npm run test
+
+      #- name: Install the frontend deps
+      #  working-directory: ./frontend
+      #  run: npm install
+
+      #- name: Run the frontend tests
+      #  working-directory: ./frontend
+      #  run: npm run test:ci
