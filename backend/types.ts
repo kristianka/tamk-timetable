@@ -1,3 +1,6 @@
+import { Request } from "express";
+import { JwtPayload } from "jsonwebtoken";
+
 export interface Reservation {
   id: string;
   subject: string;
@@ -28,4 +31,9 @@ export interface CourseResponse {
   status: string;
   message: string;
   reservations: Reservation[];
+}
+
+export interface AuthRequest extends Request {
+  token?: string | undefined;
+  user?: JwtPayload | undefined;
 }
