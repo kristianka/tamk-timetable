@@ -12,8 +12,11 @@ import LogoutButton from "./services/logout";
 import LandingPage from "./components/LandingPage";
 
 const App = () => {
-  // check server status
+  // check server status, check if token exists
   useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setUser(localStorage.getItem("token") as string);
+    }
     pingServer();
   }, []);
 

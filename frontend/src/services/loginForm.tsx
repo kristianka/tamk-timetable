@@ -11,12 +11,12 @@ const LoginForm = (props: LoginFormProps) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  //async function to handle form submission
+  // async function to handle form submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-      //post request to login endpoint
+      // post request to login endpoint
       const response = await axios.post("http://localhost:3000/api/login", {
         username,
         password
@@ -26,7 +26,7 @@ const LoginForm = (props: LoginFormProps) => {
       console.log("Logged in, token", response.data.token);
       // set user in App component so app can re-render
       props.setUser(response.data.token);
-      //home page navigation
+      // home page navigation
       navigate("/");
     } catch (error) {
       console.error("Error logging in", error);
@@ -34,7 +34,7 @@ const LoginForm = (props: LoginFormProps) => {
   };
 
   return (
-    //login form
+    // login form
     <form onSubmit={handleSubmit}>
       <input
         type="text"
