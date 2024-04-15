@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "mongoose": "^8.2.3"
+    "mongoose": "^8.2.3",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.97"
