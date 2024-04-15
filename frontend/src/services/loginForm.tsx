@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-//login form component
-const LoginForm: React.FC = () => { 
+interface LoginFormProps {
+  setUser: (user: string) => void;
+}
+
+const LoginForm = (props: LoginFormProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -16,22 +19,23 @@ const LoginForm: React.FC = () => {
       //post request to login endpoint
       const response = await axios.post("http://localhost:3000/api/login", {
         username,
-        password,
+        password
       });
 
-      //store token into local storage
       localStorage.setItem("token", response.data.token);
-      
+      console.log("Logged in, token", response.data.token);
+      // set user in App component so app can re-render
+      props.setUser(response.data.token);
       //home page navigation
-      navigate("/"); 
+      navigate("/");
     } catch (error) {
       console.error("Error logging in", error);
     }
   };
 
-  //login form
   return (
-    <form onSubmit={handleSubmit}> 
+    //login form
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         value={username}
@@ -47,6 +51,6 @@ const LoginForm: React.FC = () => {
       <button type="submit">Log in</button>
     </form>
   );
-}
+};
 
 export default LoginForm;
