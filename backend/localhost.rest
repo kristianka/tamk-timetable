@@ -1,5 +1,10 @@
 GET {{server}}/ping
 
+
+###
+GET {{server}}/api/info/health
+
+
 ###
 GET {{server}}/api/users
 
@@ -24,9 +29,9 @@ Content-Type: application/json
   "password": "henri"
 }
 
+
 ###
 @authToken = {{login.response.body.token}}
-
 @server = http://localhost:3000
 
 

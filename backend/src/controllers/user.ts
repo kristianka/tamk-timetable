@@ -8,12 +8,17 @@ usersRouter.post("/", async (request: Request, response: Response) => {
   try {
     const { username, password } = request.body;
 
+    const results = await Users.findByUsername(username);
+    if (results) {
+      return response.status(422).json({ message: "Could not create user, user exists" });
+    }
+
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
     await Users.create(username, passwordHash);
 
-    response.json({ message: "User created successfully" });
+    response.status(201).json({ message: "User created successfully" });
   } catch (error) {
     response
       .status(400)
