@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  setUser: (user: string) => void;
+}
+
+const LoginForm = (props: LoginFormProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,10 +15,13 @@ const LoginForm: React.FC = () => {
     try {
       const response = await axios.post("http://localhost:3000/api/login", {
         username,
-        password,
+        password
       });
 
       localStorage.setItem("token", response.data.token);
+      console.log("Logged in, token", response.data.token);
+      // set user in App component so app can re-render
+      props.setUser(response.data.token);
     } catch (error) {
       console.error("Error logging in", error);
     }
@@ -37,6 +44,6 @@ const LoginForm: React.FC = () => {
       <button type="submit">Log in</button>
     </form>
   );
-}
+};
 
 export default LoginForm;

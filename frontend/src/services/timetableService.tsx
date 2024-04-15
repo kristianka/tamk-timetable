@@ -2,11 +2,13 @@ import axios from "axios";
 import { ClassResponse, CourseResponse } from "../types";
 import { toast } from "react-toastify";
 const baseUrl = "/api/timetables";
+const token = localStorage.getItem("token");
 
 export const getTimetableByCourse = async (id: string) => {
   try {
     const res = await axios.get<CourseResponse>(`${baseUrl}/course/`, {
-      params: { code: id }
+      params: { code: id },
+      headers: { Authorization: `Bearer ${token}` }
     });
     return res.data;
   } catch (error) {
@@ -18,7 +20,8 @@ export const getTimetableByCourse = async (id: string) => {
 export const getTimetableByClass = async (id: string) => {
   try {
     const res = await axios.get<ClassResponse>(`${baseUrl}/class/`, {
-      params: { code: id }
+      params: { code: id },
+      headers: { Authorization: `Bearer ${token}` }
     });
     return res.data;
   } catch (error) {

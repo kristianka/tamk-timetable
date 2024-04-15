@@ -8,6 +8,7 @@ import { pingServer } from "./services/info";
 import LoginForm from "./services/loginForm";
 import RegisterForm from "./services/registerForm";
 import Timetable from "./components/Timetable";
+import LandingPage from "./components/LandingPage";
 
 const App = () => {
   // check server status
@@ -15,14 +16,17 @@ const App = () => {
     pingServer();
   }, []);
 
+  const [user, setUser] = useState("");
+
+  // if user isn't logged in, show landing page
   return (
     <Router>
       <div>
         <ToastContainer />
-        <Timetable />
+        {user ? <Timetable /> : <LandingPage />}
       </div>
       <Routes>
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/login" element={<LoginForm setUser={setUser} />} />
         <Route path="/register" element={<RegisterForm />} />
       </Routes>
     </Router>
