@@ -8,7 +8,6 @@ import { pingServer } from "./services/info";
 import LoginForm from "./services/loginForm";
 import RegisterForm from "./services/registerForm";
 import Timetable from "./components/Timetable";
-import "./App.css";
 
 const App = () => {
   // check server status
