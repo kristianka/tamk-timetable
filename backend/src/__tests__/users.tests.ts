@@ -25,10 +25,23 @@ describe("Auth Routes", () => {
           password: "password123"
         });
 
-      expect(response.statusCode).toBe(200);
+      expect(response.statusCode).toBe(201);
       expect(response.body.message).toBe("User created successfully");
     });
+    it('should return a 422 status if user exists', async () => {
+      const mockFindByUsername = jest.fn().mockResolvedValue([{ username: 'Test User' }]);
+      Users.findByUsername = mockFindByUsername;
 
+      const response = await request(app)
+        .post('/api/users/')
+        .send({
+          username: 'Test User',
+          email: 'test@example.com'
+        });
+
+      expect(response.statusCode).toBe(422);
+      expect(response.body.message).toBe("Could not create user, user exists");
+    });
   });
 
   describe("/login", () => {
