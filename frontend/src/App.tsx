@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,6 +6,7 @@ import { pingServer } from "./services/info";
 import LoginForm from "./services/loginForm";
 import RegisterForm from "./services/registerForm";
 import Timetable from "./components/Timetable";
+import "./App.css";
 
 const App = () => {
   // check server status

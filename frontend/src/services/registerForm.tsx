@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const RegisterForm: React.FC = () => {
+const RegisterForm: React.FC = () => { //register form component
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => { //async function to handle form submission
     event.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/api/users", {
+      await axios.post("http://localhost:3000/api/users", { //post request to register endpoint
         username,
         password,
       });
 
       alert("User registered successfully");
+      navigate("/login"); //login page navigation
     } catch (error) {
       console.error("Error registering user", error);
     }
   };
 
-  return (
+  return ( //register form
     <form onSubmit={handleSubmit}>
       <input
         type="text"
