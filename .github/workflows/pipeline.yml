@@ -41,7 +41,7 @@ jobs:
         run: mongosh --username admin --password password --port 27017 < mongo-init.js
 
       - name: Create testing .env file from secret
-        run: echo "${{secrets.ENV_FILE_TEST}}" > ./backend/.env
+        run: echo "${{secrets.ENV_TEST}}" > ./backend/.env
 
       - name: Install the backend deps
         working-directory: ./backend
