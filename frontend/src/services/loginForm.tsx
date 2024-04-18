@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { User } from "../types";
 
 interface LoginFormProps {
-  setUser: (user: string) => void;
+  setUser: (user: User) => void;
 }
 
 const LoginForm = (props: LoginFormProps) => {
@@ -22,10 +23,17 @@ const LoginForm = (props: LoginFormProps) => {
         password
       });
 
-      localStorage.setItem("token", response.data.token);
-      console.log("Logged in, token", response.data.token);
       // set user in App component so app can re-render
-      props.setUser(response.data.token);
+      const token = response.data.token;
+      const user = {
+        username: username,
+        token: token,
+        validUntil: new Date().getTime() + 1000 * 60 * 60
+      };
+      localStorage.setItem("user", JSON.stringify(user));
+      console.log("Logged in, token", user.token);
+      props.setUser(user);
+
       //home page navigation
       navigate("/");
     } catch (error) {

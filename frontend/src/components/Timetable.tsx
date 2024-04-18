@@ -12,51 +12,60 @@ const Timetable = () => {
     null
   );
 
+  console.log(courseTimetable, groupTimetable);
   return (
     <div>
       <p className="m-5 text-xl">Timetable</p>
-      <div className="m-5">
-        <h2>Search by course code, example 5G00EV17-3003</h2>
-        <Formik
-          key="courseCode"
-          initialValues={{ courseCode: "" || "" }}
-          onSubmit={async (values) => {
-            const res = await getTimetableByCourse(values.courseCode);
-            setCourseTimetable(res?.reservations || null);
-          }}
-        >
-          <Form>
-            <Field
-              id="courseCode"
-              name="courseCode"
-              placeholder="5G00EV17-3003"
-              type="text"
-            />
-            <button type="submit">Submit</button>
-          </Form>
-        </Formik>
-      </div>
-
-      <div className="m-5 divide-y">
-        <table className="w-full text-sm text-left">
-          <thead className="text-xs">
-            <tr>
-              <th>Course</th>
-              <th>Starts</th>
-              <th>Ends</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courseTimetable &&
-              courseTimetable.map((item: Reservation) => (
-                <tr className="bg-white border-b" key={item.id}>
-                  <td>{item.subject}</td>
-                  <td>{item.startDate}</td>
-                  <td>{item.endDate}</td>
+      <div className="grid grid-cols-2">
+        <div className="m-5">
+          <h2>Search by course code, example 5G00EV17-3003</h2>
+          <Formik
+            key="courseCode"
+            initialValues={{ courseCode: "" || "" }}
+            onSubmit={async (values) => {
+              const res = await getTimetableByCourse(values.courseCode);
+              setCourseTimetable(res?.reservations || null);
+            }}
+          >
+            <Form>
+              <Field
+                id="courseCode"
+                name="courseCode"
+                placeholder="5G00EV17-3003"
+                type="text"
+              />
+              <button type="submit">Submit</button>
+            </Form>
+          </Formik>
+          <div className="divide-y">
+            <table className="w-full text-sm text-left">
+              <thead className="text-xs">
+                <tr>
+                  <th>Course</th>
+                  <th>Starts</th>
+                  <th>Ends</th>
                 </tr>
-              ))}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {courseTimetable &&
+                  courseTimetable.map((item: Reservation) => (
+                    <tr className="bg-white border-b" key={item.id}>
+                      <td>{item.subject}</td>
+                      <td>{item.startDate}</td>
+                      <td>{item.endDate}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="m-5">
+          {courseTimetable ? (
+            <MyCalendar data={courseTimetable} />
+          ) : (
+            <p className="m-5">Enter group code to render timetable</p>
+          )}
+        </div>
       </div>
 
       <div className="mt-10 m-5">

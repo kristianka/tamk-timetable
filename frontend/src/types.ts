@@ -29,3 +29,9 @@ export interface CourseResponse {
   message: string;
   reservations: Reservation[];
 }
+
+export interface User {
+  username: string;
+  token: string;
+  validUntil: number;
+}

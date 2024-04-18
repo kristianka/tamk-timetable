@@ -2,7 +2,9 @@ import axios from "axios";
 import { ClassResponse, CourseResponse } from "../types";
 import { toast } from "react-toastify";
 const baseUrl = "/api/timetables";
-const token = localStorage.getItem("token");
+const user = localStorage.getItem("user");
+const obj = JSON.parse(user || "{}");
+const token = obj.token;
 
 export const getTimetableByCourse = async (id: string) => {
   try {
