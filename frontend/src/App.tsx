@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { pingServer } from "./services/info";
-import LoginForm from "./services/loginForm";
-import RegisterForm from "./services/registerForm";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 import Timetable from "./components/Timetable";
 import LogoutButton from "./services/logout";
 import LandingPage from "./components/LandingPage";
@@ -32,8 +32,8 @@ const App = () => {
         {user ? <Timetable /> : <LandingPage />}
       </div>
       <Routes>
-        <Route path="/login" element={<LoginForm setUser={setUser} />} />
-        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
   );
