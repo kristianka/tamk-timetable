@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const register = async (username, password) => {
+const register = async (username: string, password: string) => {
   try {
     // post request to register endpoint
     await axios.post("http://localhost:3000/api/users", {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const login = async (username, password) => {
+const login = async (username: string, password: string) => {
   try {
     // post request to login endpoint
     const response = await axios.post("http://localhost:3000/api/login", {
