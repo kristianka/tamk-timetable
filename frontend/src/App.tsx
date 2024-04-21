@@ -1,15 +1,12 @@
-// tailwind
-import "./App.css";
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Route, Routes } from "react-router-dom";
 import { pingServer } from "./services/info";
 import LoginForm from "./services/loginForm";
 import RegisterForm from "./services/registerForm";
 import Timetable from "./components/Timetable";
 import LandingPage from "./components/LandingPage";
 import { User } from "./types";
+import Header from "./components/Header";
 
 const App = () => {
   const [user, setUser] = useState<User>();
@@ -27,19 +24,23 @@ const App = () => {
     pingServer();
   }, []);
 
-  console.log("user", user);
   // if user isn't logged in, show landing page
   return (
-    <Router>
-      <div>
-        <ToastContainer />
-        {user ? <Timetable /> : <LandingPage />}
-      </div>
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      <Header user={user} />
       <Routes>
-        <Route path="/login" element={<LoginForm setUser={setUser} />} />
-        <Route path="/register" element={<RegisterForm />} />
+        {user ? (
+          <Route path="/" element={<Timetable />} />
+        ) : (
+          <Route path="/" element={<LandingPage />} />
+        )}
+        <Route
+          path="/login"
+          element={<LoginForm user={user} setUser={setUser} />}
+        />
+        <Route path="/register" element={<RegisterForm user={user} />} />
       </Routes>
-    </Router>
+    </div>
   );
 };
 
