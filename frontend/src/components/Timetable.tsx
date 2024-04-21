@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Field, Form } from "formik";
 import {
   getTimetableByCourse,
@@ -8,109 +8,91 @@ import {
 import { Reservation } from "../types";
 import { toast } from "react-toastify";
 import NewCalendar from "./NewCalendar";
+import MyCalendar from "./Calendar";
+import { ITimetable } from "../types";
 
 const Timetable = () => {
   const [courseTimetable, setCourseTimetable] = useState<Reservation[] | null>(
     null
   );
-  const [groupTimetable, setGroupTimeTable] = useState<Reservation[] | null>(
-    null
-  );
-
-  const [timetable2, setTimetable2] = useState<string[]>();
-
-  const sendToServer = async () => {
-    const res = await uploadTimetable(["5G00EV17-3003", "5G00EV15-3003"]);
-    console.log(res);
-    toast.success(JSON.stringify(res));
-  };
+  const [timetable, setTimetable] = useState<ITimetable>();
+  const [courseCodes, setCourseCodes] = useState<string[]>([]);
 
   const getYourTimetable = async () => {
     const res = await getUsersTimetable();
-    console.log(res);
-    setTimetable2(res);
-    toast.success(JSON.stringify(res, null, 2));
+    setTimetable(res);
+    setCourseCodes(res?.codes);
   };
 
-  console.log(courseTimetable, groupTimetable);
+  useEffect(() => {
+    getYourTimetable();
+  }, []);
+
+  const sendToServer = async (newCode: string) => {
+    try {
+      await uploadTimetable([...courseCodes, newCode]);
+      toast.success("Course added to your timetable");
+      getYourTimetable();
+    } catch (error) {
+      toast.error("Failed to add course to your timetable. Please try again.");
+    }
+  };
+
+  console.log("courseCodes", courseCodes);
+
   return (
     <div className="min-h-full">
-      <button
-        className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        onClick={sendToServer}
-      >
-        Send to server to get timetable for 5G00EV17-3003
-      </button>
-      <button
-        className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        onClick={getYourTimetable}
-      >
-        Get your timetable
-      </button>
-      <br />
-
-      {timetable2 ? <NewCalendar data={timetable2} /> : null}
-
-      <p className="m-5 text-xl">Timetable</p>
+      {/* divide page in two */}
       <div className="grid grid-cols-2">
-        <div className="m-5">
-          <h2>Search by course code, example 5G00EV17-3003</h2>
-          <Formik
-            key="courseCode"
-            initialValues={{ courseCode: "" || "" }}
-            onSubmit={async (values) => {
-              const res = await getTimetableByCourse(values.courseCode);
-              setCourseTimetable(res?.reservations || null);
-            }}
-          >
-            <Form>
-              <Field
-                id="courseCode"
-                name="courseCode"
-                placeholder="5G00EV17-3003"
-                type="text"
-              />
-              <button type="submit">Submit</button>
-            </Form>
-          </Formik>
-          <div className="divide-y"></div>
+        <div className="row row-cols-2">
+          <div className="m-5 p-3 rounded-lg bg-white">
+            <h1 className="m-auto text-3xl font-bold">Add courses</h1>
+            <h2 className="m-auto text-m">
+              Search by course code, example 5G00EV17-3003
+            </h2>
+            <Formik
+              key="courseCode"
+              initialValues={{ courseCode: "" || "" }}
+              onSubmit={async (values) => {
+                const res = await getTimetableByCourse(values.courseCode);
+                setCourseTimetable(res?.reservations || null);
+              }}
+            >
+              {({ values }) => (
+                <Form>
+                  <Field
+                    id="courseCode"
+                    name="courseCode"
+                    placeholder="5G00EV17-3003"
+                    type="text"
+                  />
+                  <button type="submit">Submit</button>
+                  <button
+                    type="submit"
+                    className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    onClick={() => {
+                      const sendAsync = async () => {
+                        await sendToServer(values.courseCode);
+                      };
+                      sendAsync();
+                    }}
+                  >
+                    Add to your timetable
+                  </button>
+                </Form>
+              )}
+            </Formik>
+            <h2 className="text-xl">Found these reservations:</h2>
+
+            {courseTimetable ? (
+              <MyCalendar data={courseTimetable} />
+            ) : (
+              <p>No reservations found</p>
+            )}
+          </div>
         </div>
-        {/* <div className="m-5">
-          {courseTimetable ? (
-            <MyCalendar data={courseTimetable} />
-          ) : (
-            <p className="m-5">Enter group code to render timetable</p>
-          )}
-        </div> */}
+        <div>{timetable ? <NewCalendar data={timetable} /> : null}</div>
       </div>
-
-      <div className="mt-10 m-5">
-        <h2>Search by group code, example 21i224</h2>
-
-        <Formik
-          key="groupCode"
-          initialValues={{ groupCode: "" || "" }}
-          onSubmit={async (values) => {
-            const res = await getTimetableByCourse(values.groupCode);
-            setGroupTimeTable(res?.reservations || null);
-          }}
-        >
-          <Form>
-            <Field
-              id="groupCode"
-              name="groupCode"
-              placeholder="21i224"
-              type="text"
-            />
-            <button type="submit">Submit</button>
-          </Form>
-        </Formik>
-      </div>
-      {/* {groupTimetable ? (
-        <MyCalendar data={groupTimetable} />
-      ) : (
-        <p className="m-5">Enter group code to render timetable</p>
-      )} */}
     </div>
   );
 };

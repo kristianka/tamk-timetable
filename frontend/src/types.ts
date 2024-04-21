@@ -41,3 +41,9 @@ export interface Event {
   end: Date;
   title: string;
 }
+
+export interface ITimetable {
+  id: string;
+  userId: string;
+  codes: string[];
+}

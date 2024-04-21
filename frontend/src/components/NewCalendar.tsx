@@ -13,27 +13,21 @@ interface props {
   };
 }
 
-const NewCalendar = (props: props) => {
-  // populate the calendar with the data from the server
-
-  console.log("new calendar props", props);
-  const [timetable, setTimetable] = useState<Reservation[] | undefined>();
+const NewCalendar = ({ data }: props) => {
   const [events, setEvents] = useState<Event[] | undefined>();
 
+  console.log("in calendar");
   useEffect(() => {
-    console.log("useEffect in new calendar");
+    // populate the calendar with the data from the server
     const fetchData = async () => {
       try {
         let tempTimetable: Reservation[] = [];
-        for (let i = 0; i < props.data.codes.length; i++) {
-          const res = await getTimetableByCourse(props.data.codes[i]);
-          console.log("res", res);
+        for (let i = 0; i < data.codes.length; i++) {
+          const res = await getTimetableByCourse(data.codes[i]);
           // push the data to the timetable
           const r = res?.reservations || [];
           tempTimetable = tempTimetable.concat(r);
         }
-
-        setTimetable(tempTimetable);
         const events = tempTimetable.map((item: Reservation) => ({
           start: new Date(item.startDate),
           end: new Date(item.endDate),
@@ -45,20 +39,26 @@ const NewCalendar = (props: props) => {
       }
     };
     fetchData();
-  }, []);
+  }, [data.codes]);
 
-  console.log("timetable", timetable);
-  console.log("events", events);
+  const handleEventClick = (event: Event) => {
+    console.log("clicked event", event);
+  };
 
   return (
     <div className="h-full">
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        defaultView="week"
-      />
+      <div className="m-5 p-3 rounded-lg bg-white">
+        <h1 className="p-3 m-auto text-3xl font-bold">Your calendar</h1>
+        <Calendar
+          className="m-3"
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          defaultView="week"
+          onSelectEvent={(event) => handleEventClick(event)}
+        />
+      </div>
     </div>
   );
 };
