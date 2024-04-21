@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { User } from "../types";
 
 interface LoginFormProps {
+  user: User | undefined;
   setUser: (user: User) => void;
 }
 
@@ -11,6 +12,13 @@ const LoginForm = (props: LoginFormProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // if user is logged in, navigate to home page
+    if (props.user) {
+      navigate("/");
+    }
+  }, [props.user, navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     //async function to handle form submission
