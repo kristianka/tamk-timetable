@@ -23,6 +23,7 @@ const LoginPage = () => {
         <h2 className="text-2xl font-bold mb-4 text-gray-700">Login</h2>
         <input
           type="text"
+          name="username"
           value={username}
           onChange={({ target }) => setUsername(target.value)}
           className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
@@ -30,6 +31,7 @@ const LoginPage = () => {
         />
         <input
           type="password"
+          name="password"
           value={password}
           onChange={({ target }) => setPassword(target.value)}
           className="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300"
