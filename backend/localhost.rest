@@ -20,6 +20,11 @@ Content-Type: application/json
 
 
 ###
+DELETE {{server}}/api/users/66258835dc37720f7f90947d
+Content-Type: application/json
+
+
+###
 # @name login
 POST {{server}}/api/login
 Content-Type: application/json
@@ -27,6 +32,41 @@ Content-Type: application/json
 {
   "username": "Henri",
   "password": "henri"
+}
+
+
+###
+GET {{server}}/api/timetables
+Authorization: Bearer {{authToken}}
+
+
+###
+GET {{server}}/api/timetables/course/?code=5G00EV17-3003
+Authorization: Bearer {{authToken}}
+
+
+###
+GET {{server}}/api/timetables/class/?code=21i224
+Authorization: Bearer {{authToken}}
+
+
+###
+POST {{server}}/api/timetables
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "codes": ["5G00EV17-3003"]
+}
+
+
+###
+PUT {{server}}/api/timetables
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "codes": ["5G00EV17-3003"]
 }
 
 
