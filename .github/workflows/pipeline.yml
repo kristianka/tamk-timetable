@@ -70,6 +70,10 @@ jobs:
         working-directory: ./backend
         run: npm run dev &
 
+      - name: Run the frontend
+        working-directory: ./frontend
+        run: npm run dev &
+
       - name: Wait for backend to be ready
         run: sleep 10
 
