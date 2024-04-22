@@ -7,7 +7,6 @@ let token = "";
 
 export const setToken = (newToken: string) => {
   token = newToken;
-  console.log("token is", token);
 };
 
 export const getTimetableByCourse = async (id: string) => {
