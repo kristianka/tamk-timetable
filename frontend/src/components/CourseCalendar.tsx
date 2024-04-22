@@ -9,14 +9,12 @@ interface props {
   data: Reservation[];
 }
 
-const MyCalendar = (props: props) => {
+const CourseCalendar = (props: props) => {
   const events = props.data?.map((item: Reservation) => ({
     start: new Date(item.startDate),
     end: new Date(item.endDate),
     title: item.subject
   }));
-
-  console.log("events", events);
 
   return (
     <div className="h-full">
@@ -31,4 +29,4 @@ const MyCalendar = (props: props) => {
   );
 };
 
-export default MyCalendar;
+export default CourseCalendar;

@@ -7,6 +7,7 @@ import Timetable from "./components/Timetable";
 import LandingPage from "./components/LandingPage";
 import { User } from "./types";
 import Header from "./components/Header";
+import { setToken } from "./services/timetableService";
 
 const App = () => {
   const [user, setUser] = useState<User>();
@@ -16,6 +17,7 @@ const App = () => {
     const cachedUser = JSON.parse(localStorage.getItem("user") || "{}") as User;
     console.log(cachedUser);
     if (cachedUser && cachedUser.validUntil > new Date().getTime()) {
+      setToken(cachedUser.token);
       setUser(cachedUser);
     } else {
       console.log("Token expired or no user in local storage");

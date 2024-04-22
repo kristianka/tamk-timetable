@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Register } from "../services/register";
 import { User } from "../types";
 
@@ -55,6 +55,12 @@ const RegisterPage = ({ user }: RegisterProps) => {
         >
           Register
         </button>
+        <p className="mt-4 text-center">
+          Already have an account?{" "}
+          <Link className="text-indigo-700" to="/login">
+            Login here.
+          </Link>
+        </p>
       </form>
     </div>
   );
