@@ -12,9 +12,6 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
-
       - name: Fetch code
         uses: actions/checkout@v4.1.1
 
