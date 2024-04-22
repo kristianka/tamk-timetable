@@ -273,4 +273,3 @@ describe("POST timetables endpoint", () => {
     Users.deleteUserById(findResult?._id);
   });
 });
-
