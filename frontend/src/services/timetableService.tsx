@@ -2,9 +2,13 @@ import axios from "axios";
 import { ClassResponse, CourseResponse } from "../types";
 import { toast } from "react-toastify";
 const baseUrl = "/api/timetables";
-const user = localStorage.getItem("user");
-const obj = JSON.parse(user || "{}");
-const token = obj.token;
+
+let token = "";
+
+export const setToken = (newToken: string) => {
+  token = newToken;
+  console.log("token is", token);
+};
 
 export const getTimetableByCourse = async (id: string) => {
   try {
@@ -40,6 +44,7 @@ export const getUsersTimetable = async () => {
     return res.data;
   } catch (error) {
     console.log("An error occured:", error);
+    toast.error("Sorry, something went wrong. Make sure the code is correct.");
   }
 };
 

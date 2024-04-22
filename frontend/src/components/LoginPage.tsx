@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Login } from "../services/login";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User } from "../types";
+import { setToken } from "../services/timetableService";
 
 interface LoginProps {
   user: User | undefined;
@@ -30,6 +31,7 @@ const LoginPage = ({ user, setUser }: LoginProps) => {
     console.log(user);
     setUsername("");
     setPassword("");
+    setToken(user.token);
     setUser(user);
   };
 
@@ -57,6 +59,12 @@ const LoginPage = ({ user, setUser }: LoginProps) => {
         >
           Log in
         </button>
+        <p className="mt-4 text-center">
+          Don't have an account yet?{" "}
+          <Link className="text-indigo-700" to="/register">
+            Register here.
+          </Link>
+        </p>
       </form>
     </div>
   );
