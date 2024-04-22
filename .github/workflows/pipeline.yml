@@ -65,7 +65,10 @@ jobs:
 
       - name: Run the backend
         working-directory: ./backend
-        run: npm run dev
+        run: npm run dev &
+
+      - name: Wait for backend to be ready
+        run: sleep 10
 
       - name: Run the frontend tests
         working-directory: ./frontend
