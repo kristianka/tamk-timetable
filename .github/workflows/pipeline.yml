@@ -63,6 +63,10 @@ jobs:
         working-directory: ./frontend
         run: npm run lint
 
+      - name: Run the backend
+        working-directory: ./backend
+        run: npm run dev
+
       - name: Run the frontend tests
         working-directory: ./frontend
         run: npm run cy:e2e
