@@ -28,7 +28,7 @@ export const validateQueryCode = (req: Request, res: Response, next: NextFunctio
   const { code } = req.query;
 
   if (!code || typeof code !== "string") {
-    return res.status(400).send("Course code is required and must be a string.");
+    return res.status(400).send({"error" : "Course code is required and must be a string."});
   }
 
   req.query.code = code;
@@ -39,7 +39,7 @@ export const validateBodyCode = (req: Request, res: Response, next: NextFunction
   const { code } = req.body;
 
   if (!code || typeof code !== "string") {
-    return res.status(400).send("Course code is required and must be a string.");
+    return res.status(400).send({"error" : "Course code is required and must be a string."});
   }
 
   req.body.code = code;
@@ -50,7 +50,7 @@ export const validateBodyCodes = (req: Request, res: Response, next: NextFunctio
   const { codes } = req.body;
 
   if (!codes || !Array.isArray(codes) || codes.some((code) => typeof code !== "string")) {
-    return res.status(400).send("codes is required and must be an array of strings.");
+    return res.status(400).send({"error" : "Codes is required and must be an array of strings."});
   }
 
   req.body.courseCodes = codes;
@@ -74,7 +74,6 @@ export const getUserFromReq = (req: AuthRequest, _res: Response, next: NextFunct
   }
 
   const decodedToken = jwt.verify(req.token, process.env.SECRET as string) as JwtPayload;
-
   if (decodedToken.id) {
     req.user = decodedToken;
   } else {

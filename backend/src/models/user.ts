@@ -1,17 +1,17 @@
 import mongoose, { Document } from "mongoose";
 import pool from "../db/pool";
 
+
 interface UserDocument extends Document {
-  id: string;
   username: string;
   password: string;
 }
 
 const userSchema = new mongoose.Schema({
-  id: String,
   username: String,
   password: String
 });
+
 
 // Define the user-related functionalities
 const Users = {
@@ -37,6 +37,19 @@ const Users = {
       console.error("Error fetching user:", error);
     }
   },
+  findById: async (id: string) => {
+    const User = pool.model<UserDocument>("users", userSchema);
+    try {
+      const user = await User.findOne({_id: id});
+      if (!user) {
+        console.log(`No user found for id ${id}`);
+        return;
+      }
+      return user;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  },
   find: async (query: object) => {
     const User = pool.model<UserDocument>("users", userSchema);
     try {
@@ -44,6 +57,15 @@ const Users = {
       return users;
     } catch (error) {
       console.error("Error fetching users:", error);
+    }
+  },
+  deleteUserById: async (id: string) => {
+    const User = pool.model<UserDocument>("users", userSchema);
+    try {
+      const result = await User.deleteOne({_id: id});
+      return result;
+    } catch (error) {
+      console.error("Error deleting user:", error);
     }
   }
 };

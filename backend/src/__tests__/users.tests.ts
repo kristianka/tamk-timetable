@@ -7,9 +7,9 @@ import { Users } from "../models/user";
 
 // Mocking external modules
 jest.mock("bcrypt");
-jest.mock("../models/user");
 
 describe("Auth Routes", () => {
+
   describe("/users", () => {
     beforeEach(() => {
       const mockCreate = jest.fn().mockResolvedValue(true);

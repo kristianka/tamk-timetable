@@ -36,4 +36,22 @@ usersRouter.get("/", async (_request: Request, response: Response) => {
   }
 });
 
+usersRouter.delete("/:id", async (request: Request, response: Response) => {
+  try {
+    const id = request.params.id;
+    const results = await Users.findById(id);
+    if (!results) {
+      return response.status(422).json({ message: "Could not delete user, user doesn't exists" });
+    }
+    const deleteResult = await Users.deleteUserById(id);
+    if (deleteResult?.deletedCount == 1) {
+      response.json({ message: `User {id} deleted successfully`});
+    } else {
+      response.status(500).json({ error: "Internal error" });
+    }
+  } catch (error) {
+    response.status(400).json({ error: "Error fetching users" });
+  }
+});
+
 export default usersRouter;
