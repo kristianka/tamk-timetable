@@ -30,8 +30,10 @@ app.use("/api/info", infoRouter);
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 😁`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} 😁`);
+  });
+}
 
 export default app;

@@ -16,8 +16,10 @@ const MyCalendar = (props: props) => {
     title: item.subject
   }));
 
+  console.log("events", events);
+
   return (
-    <div className="myCustomHeight">
+    <div className="h-full">
       <Calendar
         localizer={localizer}
         events={events}

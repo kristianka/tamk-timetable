@@ -29,3 +29,21 @@ export interface CourseResponse {
   message: string;
   reservations: Reservation[];
 }
+
+export interface User {
+  username: string;
+  token: string;
+  validUntil: number;
+}
+
+export interface Event {
+  start: Date;
+  end: Date;
+  title: string;
+}
+
+export interface ITimetable {
+  id: string;
+  userId: string;
+  codes: string[];
+}

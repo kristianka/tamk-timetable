@@ -15,6 +15,7 @@ const TimeTable = {
     try {
       console.log(`Fetching timetable for userId ${userId}...`);
       // findOne for proof-of-concept, user has only one timetable
+      console.log(userId);
       const userTimetable = await Timetable.findOne({ userId });
 
       if (!userTimetable) {
@@ -32,7 +33,6 @@ const TimeTable = {
 
   updateTimetableByUser: async (userId: string, codes: string[]) => {
     const Timetable = pool.model("timetables", timetableSchema);
-
     try {
       const existingItem = await Timetable.findOne({ userId });
 
@@ -53,6 +53,15 @@ const TimeTable = {
       }
     } catch (error) {
       console.error("Error updating timetable item:", error);
+    }
+  },
+  deleteTimetableByUser: async (userId: string) => {
+    const Timetable = pool.model("timetables", timetableSchema);
+    try {
+      const result = await Timetable.deleteOne({ userId });
+      return result;
+    } catch (error) {
+      console.error("Error deleting timetable:", error);
     }
   }
 };
