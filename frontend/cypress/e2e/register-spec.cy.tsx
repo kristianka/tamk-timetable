@@ -1,4 +1,4 @@
-describe("Register", () => {
+describe("Register a user", () => {
   it("successfully loads the register page", () => {
     cy.visit("http://localhost:5173/register");
   });

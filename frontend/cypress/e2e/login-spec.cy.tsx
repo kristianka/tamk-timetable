@@ -1,4 +1,4 @@
-describe("Login", () => {
+describe("Login with correct credentials", () => {
   it("successfully loads the login page", () => {
     cy.visit("http://localhost:5173/login");
   });
@@ -8,6 +8,17 @@ describe("Login", () => {
 
     cy.get("input[name=username]").type("test");
     cy.get("input[name=password]").type("testpassword");
-    cy.contains('button', 'Log in').click();
+    cy.contains("button", "Log in").click();
+  });
+});
+
+describe("Incorrect login credentials", () => {
+  it("displays an error when incorrect credentials are entered", () => {
+    cy.visit("http://localhost:5173/login");
+
+    cy.get("input[name=username]").type("wrongusername");
+    cy.get("input[name=password]").type("wrongpassword");
+    cy.contains("button", "Log in").click();
+    cy.contains("Invalid credentials. Please try again.").should("be.visible");
   });
 });
