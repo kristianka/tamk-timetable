@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { pingServer } from "./services/info";
-import LoginForm from "./services/loginForm";
-import RegisterForm from "./services/registerForm";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 import Timetable from "./components/Timetable";
+import LogoutButton from "./services/logout";
 import LandingPage from "./components/LandingPage";
 import { User } from "./types";
 import Header from "./components/Header";
