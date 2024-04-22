@@ -40,7 +40,6 @@ export const getUsersTimetable = async () => {
     return res.data;
   } catch (error) {
     console.log("An error occured:", error);
-    toast.error("Sorry, something went wrong. Make sure the code is correct.");
   }
 };
 

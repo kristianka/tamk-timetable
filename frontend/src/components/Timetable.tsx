@@ -29,13 +29,19 @@ const Timetable = () => {
   }, []);
 
   const sendToServer = async (newCode: string) => {
-    try {
-      await uploadTimetable([...courseCodes, newCode]);
-      toast.success("Course added to your timetable");
-      getYourTimetable();
-    } catch (error) {
-      toast.error("Failed to add course to your timetable. Please try again.");
+    console.log("new code", newCode);
+    if (courseCodes && courseCodes.includes(newCode)) {
+      toast.error("Course already in your timetable");
+      return;
     }
+    console.log("courseCodes", courseCodes);
+    if (courseCodes === undefined || courseCodes.length === 0) {
+      await uploadTimetable([newCode]);
+    } else {
+      await uploadTimetable([...courseCodes, newCode]);
+    }
+    toast.success("Course added to your timetable");
+    getYourTimetable();
   };
 
   console.log("courseCodes", courseCodes);

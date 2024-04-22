@@ -4,7 +4,6 @@ import { pingServer } from "./services/info";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import Timetable from "./components/Timetable";
-import LogoutButton from "./services/logout";
 import LandingPage from "./components/LandingPage";
 import { User } from "./types";
 import Header from "./components/Header";
@@ -37,9 +36,9 @@ const App = () => {
         )}
         <Route
           path="/login"
-          element={<LoginForm user={user} setUser={setUser} />}
+          element={<LoginPage user={user} setUser={setUser} />}
         />
-        <Route path="/register" element={<RegisterForm user={user} />} />
+        <Route path="/register" element={<RegisterPage user={user} />} />
       </Routes>
     </div>
   );

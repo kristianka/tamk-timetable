@@ -1,26 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import register from "../services/registerForm";
+import { Register } from "../services/register";
+import { User } from "../types";
 
-const RegisterPage = () => {
+interface RegisterProps {
+  user: User | undefined;
+}
+
+const RegisterPage = ({ user }: RegisterProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    try {
-      await register.register(username, password);
-      alert("User registered successfully");
-      navigate("/login");
-    } catch (exception) {
-      console.error("Error registering user", exception);
+  useEffect(() => {
+    // if user is logged in, navigate to home page
+    if (user) {
+      navigate("/");
     }
+  }, [user, navigate]);
+
+  // try catch in service
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault();
+    await Register(username, password);
+    navigate("/login");
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-200">
-      <form onSubmit={handleRegister} className="p-6 bg-white rounded shadow-md">
+    <div className="flex items-center justify-center m-auto">
+      <form
+        onSubmit={handleRegister}
+        className="p-6 bg-white rounded shadow-md"
+      >
         <h2 className="text-2xl font-bold mb-4 text-gray-700">Register</h2>
         <input
           type="text"
@@ -38,7 +49,7 @@ const RegisterPage = () => {
         />
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-indigo-700 hover:bg-indigo-500 text-white font-semibold rounded-lg shadow-md focus:outline-none"
+          className="w-full p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
         >
           Register
         </button>
