@@ -2,14 +2,14 @@
 
 _Not affiliated with TAMK, unofficial project for a course._
 
-This the repository for our fullstack timetable app, made by [@HenriSjoblom](https://github.com/HenriSjoblom), [@kristianka](https://github.com/kristianka) and [@Zennrr](https://github.com/Zennrr)!
+This is the repository for our fullstack timetable app, made by [@HenriSjoblom](https://github.com/HenriSjoblom), [@kristianka](https://github.com/kristianka) and [@Zennrr](https://github.com/Zennrr)!
 
 You can search tamk courses and create your own timetable!
-Note: this is proof-of-concept version of the main product. Over the course, we made through documentation how to make the project. 
+Note: this is proof-of-concept version of the main product. Over the course, we made thorough documentation how to make the project. 
 
-This project has a proper CI/CD pipeline (excluding deploy), we used Trello for tracking issues and what work to do. We used pull requests like in a real project, the main branch is projected.
+This project has a proper CI/CD pipeline (excluding deploy), we used Trello for tracking issues and what work to do. We used pull requests like in a real project, the main branch is protected.
 
-Both frontend and backend have strict linting and style rules! We used `eslint` and `prettier`.
+Both frontend and backend have strict linting and style rules! We used `eslint` and `prettier`. Pretty much all buttons/server calls have a test! 
 
 Screenshots under technologies!
 
