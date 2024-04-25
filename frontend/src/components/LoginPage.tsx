@@ -28,7 +28,6 @@ const LoginPage = ({ user, setUser }: LoginProps) => {
     if (!user) {
       return;
     }
-    console.log(user);
     setUsername("");
     setPassword("");
     setToken(user.token);

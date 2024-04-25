@@ -15,7 +15,6 @@ const App = () => {
   // check server status, check if token exists
   useEffect(() => {
     const cachedUser = JSON.parse(localStorage.getItem("user") || "{}") as User;
-    console.log(cachedUser);
     if (cachedUser && cachedUser.validUntil > new Date().getTime()) {
       setToken(cachedUser.token);
       setUser(cachedUser);

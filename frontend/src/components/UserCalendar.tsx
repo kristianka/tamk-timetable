@@ -46,14 +46,11 @@ const UserCalendar = ({ data, getYourTimetable }: props) => {
   }, [data.codes]);
 
   const handleEventClick = async (event: Event) => {
-    console.log("clicked event", event);
     if (
       window.confirm("Do you want to remove this event? This cannot be undone!")
     ) {
       const eventCode = event.title.split(" ").pop();
-      console.log("event code", eventCode);
       const newCodes = data.codes?.filter((code) => code !== eventCode);
-      console.log("new codes", newCodes);
       await uploadTimetable(newCodes);
       toast.success("Event removed successfully.");
       // refresh the calendar

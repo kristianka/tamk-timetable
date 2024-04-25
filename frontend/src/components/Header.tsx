@@ -10,6 +10,7 @@ const Header = ({ user }: HeaderProps) => {
   const navigate = useNavigate();
   const logOut = () => {
     // verify
+    // little lazy, not setting user to null but refreshing the page
     if (window.confirm("Are you sure you want to log out?")) {
       localStorage.removeItem("user");
       toast.success("Logged out successfully. See you later!");
