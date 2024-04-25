@@ -23,8 +23,8 @@ describe("Timetable Addition", () => {
     // Type the course code
     cy.get("input[name=courseCode]").type("5G00EV17-3003");
 
-    // Click the "Submit" button
-    cy.contains("button", "Submit").click();
+    // Click the "Search" button
+    cy.contains("button", "Search").click();
 
     // Click the "Add to your timetable" button
     cy.contains("button", "Add to your timetable").click();

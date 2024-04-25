@@ -8,6 +8,7 @@ let token = "";
 export const setToken = (newToken: string) => {
   token = newToken;
 };
+
 const getToken = () => {
   return window["token"] || JSON.parse(localStorage.getItem("user") || "{}").token;
 };
