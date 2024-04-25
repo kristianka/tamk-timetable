@@ -7,8 +7,8 @@ import {
 } from "../services/timetableService";
 import { Reservation } from "../types";
 import { toast } from "react-toastify";
-import NewCalendar from "./NewCalendar";
-import MyCalendar from "./Calendar";
+import UserCalendar from "./UserCalendar";
+import CourseCalendar from "./CourseCalendar";
 import { ITimetable } from "../types";
 
 const Timetable = () => {
@@ -29,12 +29,14 @@ const Timetable = () => {
   }, []);
 
   const sendToServer = async (newCode: string) => {
-    console.log("new code", newCode);
     if (courseCodes && courseCodes.includes(newCode)) {
       toast.error("Course already in your timetable");
       return;
     }
-    console.log("courseCodes", courseCodes);
+    if (newCode.length === 0) {
+      toast.error("Please enter a course code");
+      return;
+    }
     if (courseCodes === undefined || courseCodes.length === 0) {
       await uploadTimetable([newCode]);
     } else {
@@ -43,8 +45,6 @@ const Timetable = () => {
     toast.success("Course added to your timetable");
     getYourTimetable();
   };
-
-  console.log("courseCodes", courseCodes);
 
   return (
     <div className="min-h-full">
@@ -65,14 +65,20 @@ const Timetable = () => {
               }}
             >
               {({ values }) => (
-                <Form>
+                <Form className="">
                   <Field
                     id="courseCode"
                     name="courseCode"
                     placeholder="5G00EV17-3003"
                     type="text"
+                    className="p-3 rounded-lg bg-gray-100"
                   />
-                  <button type="submit">Submit</button>
+                  <button
+                    className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    type="submit"
+                  >
+                    Search
+                  </button>
                   <button
                     type="submit"
                     className="m-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
@@ -89,15 +95,14 @@ const Timetable = () => {
               )}
             </Formik>
             <h2 className="text-xl">Found these reservations:</h2>
-
             {courseTimetable ? (
-              <MyCalendar data={courseTimetable} />
+              <CourseCalendar data={courseTimetable} />
             ) : (
               <p>No reservations found</p>
             )}
           </div>
         </div>
-        <div>{timetable ? <NewCalendar data={timetable} /> : null}</div>
+        <div>{timetable ? <UserCalendar data={timetable} /> : null}</div>
       </div>
     </div>
   );
