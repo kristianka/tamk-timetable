@@ -14,6 +14,7 @@ describe("Header", () => {
     cy.get("input[name=username]").type("test");
     cy.get("input[name=password]").type("testpassword");
     cy.contains("button", "Log in").click();
+    cy.wait(2000);
 
     // Sign out of the page
     cy.get("button[id=signOut]").click({ force: true });
