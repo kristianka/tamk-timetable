@@ -16,7 +16,7 @@ describe("Header", () => {
     cy.contains("button", "Log in").click();
 
     // Sign out of the page
-    cy.contains("button", "Sign out").click({ force: true });
+    cy.get("button[id=signOut]").click({ force: true });
     cy.url().should("eq", "http://localhost:5173/");
   });
 });
