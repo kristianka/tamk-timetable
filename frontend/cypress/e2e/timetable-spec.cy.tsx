@@ -1,6 +1,6 @@
 // Timetable Addition Test
-describe("Timetable Addition", () => {
-  it("adds a course to the timetable", () => {
+describe("Timetable Addition and removal", () => {
+  it("adding and removing a timetable", () => {
     // Visit the login page
     cy.visit("http://localhost:5173/login");
 
@@ -28,5 +28,8 @@ describe("Timetable Addition", () => {
 
     // Click the "Add to your timetable" button
     cy.contains("button", "Add to your timetable").click();
+
+    // Calendar reset test
+    cy.contains("button", "Reset calendar").click({ force: true });
   });
 });
