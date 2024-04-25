@@ -1,4 +1,4 @@
-// Timetable Addition Test
+// Timetable addition and removal test
 describe("Timetable Addition and removal", () => {
   it("adding and removing a timetable", () => {
     // Visit the login page
