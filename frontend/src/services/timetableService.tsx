@@ -2,12 +2,13 @@ import axios from "axios";
 import { ClassResponse, CourseResponse } from "../types";
 import { toast } from "react-toastify";
 const baseUrl = "/api/timetables";
-const user = localStorage.getItem("user");
-const obj = JSON.parse(user || "{}");
-const token = obj.token;
+const getToken = () => {
+  return window["token"] || JSON.parse(localStorage.getItem("user") || "{}").token;
+};
 
 export const getTimetableByCourse = async (id: string) => {
   try {
+    const token = getToken();
     const res = await axios.get<CourseResponse>(`${baseUrl}/course/`, {
       params: { code: id },
       headers: { Authorization: `Bearer ${token}` }
@@ -21,6 +22,7 @@ export const getTimetableByCourse = async (id: string) => {
 
 export const getTimetableByClass = async (id: string) => {
   try {
+    const token = getToken();
     const res = await axios.get<ClassResponse>(`${baseUrl}/class/`, {
       params: { code: id },
       headers: { Authorization: `Bearer ${token}` }
@@ -34,6 +36,7 @@ export const getTimetableByClass = async (id: string) => {
 
 export const getUsersTimetable = async () => {
   try {
+    const token = getToken();
     const res = await axios.get(`${baseUrl}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -45,6 +48,7 @@ export const getUsersTimetable = async () => {
 
 export const uploadTimetable = async (codes: string[]) => {
   try {
+    const token = getToken();
     const res = await axios.post(
       `${baseUrl}`,
       { codes },

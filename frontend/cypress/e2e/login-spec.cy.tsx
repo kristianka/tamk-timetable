@@ -1,3 +1,4 @@
+// Login test with correct credentials
 describe("Login with correct credentials", () => {
   it("successfully loads the login page", () => {
     cy.visit("http://localhost:5173/login");
@@ -12,6 +13,7 @@ describe("Login with correct credentials", () => {
   });
 });
 
+// Login test with incorrect credentials
 describe("Incorrect login credentials", () => {
   it("displays an error when incorrect credentials are entered", () => {
     cy.visit("http://localhost:5173/login");
