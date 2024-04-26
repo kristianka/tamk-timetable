@@ -1,5 +1,5 @@
 import express from "express";
-import { getByClass, getByCourse } from "./timetableRequests";
+import { getByClass, getByCourse } from "../models/api";
 import { validateQueryCode, getUserFromReq, validateBodyCodes } from "../middlewares";
 import TimeTable from "../models/timetable";
 import { AuthRequest } from "../../types";
