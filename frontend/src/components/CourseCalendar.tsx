@@ -9,8 +9,8 @@ interface props {
   data: Reservation[];
 }
 
-const CourseCalendar = (props: props) => {
-  const events = props.data?.map((item: Reservation) => ({
+const CourseCalendar = ({ data }: props) => {
+  const events = data?.map((item: Reservation) => ({
     start: new Date(item.startDate),
     end: new Date(item.endDate),
     title: item.subject

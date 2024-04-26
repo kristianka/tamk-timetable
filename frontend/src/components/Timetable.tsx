@@ -102,7 +102,14 @@ const Timetable = () => {
             )}
           </div>
         </div>
-        <div>{timetable ? <UserCalendar data={timetable} /> : null}</div>
+        <div>
+          {timetable ? (
+            <UserCalendar
+              getYourTimetable={getYourTimetable}
+              data={timetable}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );

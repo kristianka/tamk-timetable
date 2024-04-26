@@ -17,7 +17,6 @@ export const Login = async (username: string, password: string) => {
       validUntil: new Date().getTime() + 1000 * 60 * 60
     };
     localStorage.setItem("user", JSON.stringify(user));
-    console.log("Logged in, token", user.token);
     toast.success("Logged in successfully!");
     return user;
   } catch (error) {
