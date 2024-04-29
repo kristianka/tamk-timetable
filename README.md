@@ -32,6 +32,26 @@ Screenshots under technologies!
 - Docker
 - Jest
 
+## Running
+
+You need three console windows. One for frontend, one for backend and one for the Docker database.
+
+- run `docker-compose up`
+- run `npm install` in both frontend and backend
+- run `npm run dev` in both frontend and backend
+
+Required `env` values in backend:
+```
+TAMK_API_KEY
+SECRET
+MONGO_AUTHSOURCE
+MONGO_USER
+MONGO_PASS
+MONGO_URL
+```
+
+You can get tamk api key from [here](https://avoindata.tamk.fi/en/rajapinnat/index.html). Secret can be anything, it's for jsonwebtoken. You can decide MongoDB credentials. To localhost the database, the `MONGO_URL` can be `localhost:27017/timetables_db`.
+
 # Screenshots 📷
 
 **Landing page**
